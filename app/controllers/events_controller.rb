@@ -10,9 +10,11 @@ class EventsController < ApplicationController
   def show
     results = {}
     @event.stages.each do |stage|
-      # stage_results = stage.stage_results.select('athlete_id, MIN(elapsed_time) AS elapsed_time').where(start_time: @event.date.beginning_of_day..@event.date.end_of_day).group(:athlete_id)
-
-      stage_results = stage.stage_results.select('athlete_id, MIN(elapsed_time) AS elapsed_time').joins(:athlete).group(:athlete_id)
+      stage_results =
+        stage.stage_results
+             .select('athlete_id, MIN(elapsed_time) AS elapsed_time')
+             .joins(:athlete)
+             .group(:athlete_id)
 
       stage_results.each do |stage_result|
         results[stage_result.athlete] ||= {}
@@ -25,7 +27,16 @@ class EventsController < ApplicationController
       end
     end
 
-    render :show, locals: { event: @event, results: results.sort_by {|_key, value| [(@event.stages.size - value[:completed_count]), value[:total]] } }
+    results_for_render =
+      results.sort_by do |_key, value|
+        [(@event.stages.size - value[:completed_count]), value[:total]]
+      end
+
+    render :show,
+           locals: {
+             event: @event,
+             results: results_for_render
+           }
   end
 
   # GET /events/new

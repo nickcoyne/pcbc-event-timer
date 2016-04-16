@@ -46,13 +46,14 @@ class AthletesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_athlete
-      @athlete = Athlete.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def athlete_params
-      params.require(:athlete).permit(:name, :gender, :strava_athlete_id, :profile_image_url)
-    end
+  def set_athlete
+    @athlete = Athlete.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def athlete_params
+    params.require(:athlete)
+          .permit(:name, :gender, :strava_athlete_id, :profile_image_url)
+  end
 end

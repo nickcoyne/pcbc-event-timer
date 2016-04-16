@@ -60,36 +60,12 @@ class StagesController < ApplicationController
   # DELETE /stages/1
   def destroy
     @stage.destroy
-    redirect_to event_stages_path(@event), notice: 'Stage was successfully destroyed.'
+    redirect_to event_stages_path(@event),
+                notice: 'Stage was successfully destroyed.'
   end
 
   def import_results
-    # TODO: Move this into a service
-    client = Strava::Api::V3::Client.new(
-      access_token: ENV['STRAVA_ACCESS_TOKEN']
-    )
-
-    results = client.segment_leaderboards(
-                @stage.strava_segment_id,
-                date_range: 'this_year',
-                per_page: 100
-              )
-
-    results['entries'].each do |result|
-      athlete = Athlete.find_or_create_by(strava_athlete_id: result['athlete_id'])
-      athlete.name = result['athlete_name']
-      athlete.gender = result['athlete_gender']
-      athlete.profile_image_url = result['athlete_profile']
-      athlete.save if athlete.changed?
-
-      stage_result = StageResult.find_or_create_by(strava_effort_id: result['effort_id'])
-      stage_result.athlete = athlete
-      stage_result.stage = @stage
-      stage_result.start_time = result['start_date_local']
-      stage_result.elapsed_time = result['elapsed_time']
-      stage_result.distance = result['distance']
-      stage_result.save if stage_result.changed?
-    end
+    ::Stages::ImportResults.call(stage: @stage, date_range: params[:date_range])
 
     redirect_to event_stage_path(@event, @stage)
   end
@@ -107,6 +83,6 @@ class StagesController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def stage_params
     params.require(:stage)
-      .permit(:name, :event_id, :strava_segment_id, :item_order, :distance)
+          .permit(:name, :event_id, :strava_segment_id, :item_order, :distance)
   end
 end

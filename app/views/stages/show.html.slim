@@ -2,7 +2,11 @@ p#notice = notice
 
 h1 Results for #{stage.name}
 
-= link_to 'Import results for week', import_results_stage_path(stage, event_id: stage.event_id)
+= link_to 'Import results for Year', import_results_stage_path(stage, event_id: stage.event_id, date_range: 'this_year')
+'&nbsp;|
+= link_to 'Import results for Week', import_results_stage_path(stage, event_id: stage.event_id, date_range: 'this_week')
+'&nbsp;|
+= link_to 'Import results for Day', import_results_stage_path(stage, event_id: stage.event_id, date_range: 'today')
 
 table
   thead
