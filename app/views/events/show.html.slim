@@ -1,0 +1,111 @@
+p#notice = notice
+
+p
+  strong Event:&nbsp;
+  = event.name
+p
+  strong Date:&nbsp;
+  = event.date
+
+= link_to 'Edit', edit_event_path(event)
+
+ul.accordion-tabs-minimal
+  li.tab-header-and-content
+    a.tab-link.is-active href="#" Leaderboard
+    .tab-content
+      h2 Leaderboard
+      table.tables
+        thead
+          tr
+            th #
+            th
+            th Athlete
+            th M/F
+            th Total Elapsed Time
+            - event.stages.each_with_index do |stage, i|
+              th
+                = i+1
+                br
+                = stage.name
+
+        tbody
+          - if results.present?
+            - results.each_with_index do |result, i|
+              tr
+                td = i+1
+                td
+                  - if result[0].profile_image_url.match(/http/)
+                    = image_tag result[0].profile_image_url, size: '40x40'
+                td = link_to result[0].name, "https://www.strava.com/athletes/#{result[0].strava_athlete_id}", target: '_blank'
+                td = result[0].gender
+                td = Time.at(result[1][:total]).utc.strftime("%M:%S")
+                - event.stages.each do |stage|
+                  td
+                    - if result[1][stage.id.to_s].present?
+                      = Time.at(result[1][stage.id.to_s]).utc.strftime("%M:%S")
+                    - else
+                      '-
+          - else
+            tr
+              td &nbsp;
+              td colspan=3 There are no results yet.
+
+    - event.stages.each_with_index do |stage, i|
+      li.tab-header-and-content
+        a.tab-link href="#" = "#{i+1}. #{stage.name}"
+        .tab-content
+          h2 #{i+1}. #{stage.name}
+          table.tables
+            thead
+              tr
+                th #
+                th
+                th Athlete
+                th M/F
+                th Elapsed Time
+                / th Distance
+
+            tbody
+              - if results.present?
+                - results.sort{ |x,y| x[1][stage.id.to_s] && y[1][stage.id.to_s] ? x[1][stage.id.to_s] <=> y[1][stage.id.to_s] : (x[1][stage.id.to_s] ? -1 : 1) }.each_with_index do |result, i|
+                  tr
+                    td = i+1
+                    td
+                      - if result[0].profile_image_url.match(/http/)
+                        = image_tag result[0].profile_image_url, size: '40x40'
+                    td = link_to result[0].name, "https://www.strava.com/athletes/#{result[0].strava_athlete_id}", target: '_blank'
+                    td = result[0].gender
+                    td
+                      - if result[1][stage.id.to_s].present?
+                        = link_to Time.at(result[1][stage.id.to_s]).utc.strftime("%M:%S"), ""
+                      - else
+                        '-
+                    / td
+              - else
+                tr
+                  td &nbsp;
+                  td colspan=3 There are no results yet.
+
+  li.tab-header-and-content
+    a.tab-link href="#" Edit Stages
+    .tab-content
+      h2 Stages
+      table.tables
+        thead
+          tr
+            th #
+            th Stage
+            th Distance
+            th Results
+
+        tbody
+          - if event.stages.present?
+            = render collection: event.stages, \
+                     partial: 'stages/stage', \
+                     locals: { event: event }
+          - else
+            tr
+              td &nbsp;
+              td colspan=3 There are no stages yet.
+
+      = link_to 'Create a Stage', new_event_stage_path(event)

@@ -2,9 +2,9 @@ en:
   date:
     formats:
       default:
-        "%m/%d/%Y"
+        "%d/%m/%Y"
       with_weekday:
-        "%a %m/%d/%y"
+        "%a %d/%m/%y"
 
   time:
     formats:
@@ -16,4 +16,4 @@ en:
         "%B %d"
 
   titles:
-    application: Pcbc-event-timer
+    application: PCBC Event Timer

@@ -1,0 +1,26 @@
+h1 Listing stages for #{link_to event.name, event_path(event)}
+
+table
+  thead
+    tr
+      th #
+      th Name
+      th Distance
+      th Results
+      th
+      th
+      th
+
+  tbody
+    - stages.each_with_index do |stage, i|
+      tr
+        td = i+1
+        td = link_to stage.name, event_stage_path(stage.event, stage)
+        td = "#{(stage.distance/1000).round(2)}km"
+        td = link_to stage.stage_results.count, event_stage_path(stage.event, stage)
+        td = link_to 'Edit', edit_event_stage_path(stage.event, stage)
+        td = link_to 'Destroy', stage, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Stage', new_event_stage_path(event)

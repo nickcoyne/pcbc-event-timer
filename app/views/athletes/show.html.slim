@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @athlete.name
+p
+  strong Gender:
+  = @athlete.gender
+p
+  strong Strava athlete:
+  = @athlete.strava_athlete_id
+p
+  strong Profile image url:
+  = @athlete.profile_image_url
+
+= link_to 'Edit', edit_athlete_path(@athlete)
+'|
+= link_to 'Back', athletes_path

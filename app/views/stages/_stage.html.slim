@@ -1,0 +1,5 @@
+tr
+  th = stage.item_order_position
+  th = link_to stage.name, event_stage_path(event, stage)
+  th = "#{(stage.distance/1000).round(3)}km"
+  th = stage.stage_results.count

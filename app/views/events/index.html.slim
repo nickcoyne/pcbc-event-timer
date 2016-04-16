@@ -1,0 +1,18 @@
+h1 Listing events
+
+table
+  thead
+    tr
+      th Name
+      th Date
+      th
+      th
+      th
+
+  tbody
+    - events.each do |event|
+      = render event
+
+br
+
+= link_to 'New Event', new_event_path

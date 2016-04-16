@@ -1,0 +1,21 @@
+p#notice = notice
+
+p
+  strong Stage:
+  = @stage_result.stage_id
+p
+  strong Athlete:
+  = @stage_result.athlete_id
+p
+  strong Start time:
+  = @stage_result.start_time
+p
+  strong Elapsed time:
+  = @stage_result.elapsed_time
+p
+  strong Distance:
+  = @stage_result.distance
+
+= link_to 'Edit', edit_stage_result_path(@stage_result)
+'|
+= link_to 'Back', stage_results_path

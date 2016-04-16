@@ -1,0 +1,7 @@
+tr
+  th
+  th = link_to stage_result.athlete.name, athlete_path(stage_result.athlete)
+  th = stage_result.athlete.gender
+  th = link_to Time.at(stage_result.elapsed_time).utc.strftime("%M:%S"), "https://www.strava.com/segment_efforts/#{stage_result.strava_effort_id}", target: '_blank'
+  th = link_to stage_result.start_time.strftime("%D %M %Y, %Hh%M:%S"), "https://www.strava.com/segment_efforts/#{stage_result.strava_effort_id}", target: '_blank'
+  th = "#{(stage_result.distance/1000).round(3)}km"

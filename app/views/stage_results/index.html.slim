@@ -1,0 +1,29 @@
+h1 Listing stage_results
+
+table
+  thead
+    tr
+      th Stage
+      th Athlete
+      th Start time
+      th Elapsed time
+      th Distance
+      th
+      th
+      th
+
+  tbody
+    - @stage_results.each do |stage_result|
+      tr
+        td = stage_result.stage_id
+        td = stage_result.athlete_id
+        td = stage_result.start_time
+        td = stage_result.elapsed_time
+        td = stage_result.distance
+        td = link_to 'Show', stage_result
+        td = link_to 'Edit', edit_stage_result_path(stage_result)
+        td = link_to 'Destroy', stage_result, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Stage result', new_stage_result_path

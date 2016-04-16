@@ -1,0 +1,25 @@
+p#notice = notice
+
+h1 Results for #{stage.name}
+
+= link_to 'Import results for week', import_results_stage_path(stage, event_id: stage.event_id)
+
+table
+  thead
+    tr
+      th #
+      th Athlete
+      th M/F
+      th Elapsed Time
+      th Start Time
+      th Measured Distance
+
+  tbody
+    - if stage_results.present?
+      = render collection: stage_results, \
+               partial: 'stage_results/stage_result', \
+               locals: { stage: stage }
+    - else
+      tr
+        td &nbsp;
+        td colspan=4 There are no results yet.
