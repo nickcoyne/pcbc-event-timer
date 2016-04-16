@@ -8,7 +8,7 @@ module Stages
   class ImportResults
     include Service
 
-    attr_reader :stage, :date_range
+    attr_reader :stage, :date_range, :event
 
     def initialize(stage:, date_range:)
       @stage      = stage
@@ -39,12 +39,14 @@ module Stages
     end
 
     def update_stage_result(result)
-      athlete = update_athlete(result)
+      return unless on_event_date?(result['start_date'])
 
+      athlete = update_athlete(result)
       stage_result = get_stage_result(result['effort_id'])
+
       stage_result.athlete = athlete
       stage_result.stage = stage
-      stage_result.start_time = result['start_date_local']
+      stage_result.start_time = Time.zone.parse(result['start_date'])
       stage_result.elapsed_time = result['elapsed_time']
       stage_result.distance = result['distance']
       stage_result.save if stage_result.changed?
@@ -67,8 +69,16 @@ module Stages
       StageResult.find_or_create_by(strava_effort_id: effort_id)
     end
 
+    def on_event_date?(result_date)
+      event.date == Time.zone.parse(result_date).to_date
+    end
+
+    def event
+      @event || stage.event
+    end
+
     def page_size
-      120
+      200
     end
   end
 end
