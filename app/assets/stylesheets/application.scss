@@ -1,11 +1,27 @@
-@charset "utf-8";
+@charset 'utf-8';
 
-@import "normalize-rails";
+@import 'normalize-rails';
 
-@import "bourbon";
-@import "neat";
+@import 'bourbon';
+@import 'neat';
 
-@import "base/base";
-@import "refills/flashes";
-@import "refills/tables";
-@import "refills/tabs";
+@import 'base/base';
+@import 'refills/flashes';
+@import 'refills/tables';
+@import 'refills/tabs';
+
+.section-header {
+  @include outer-container;
+
+  .section-details {
+    @include span-columns(6);
+  }
+
+  .section-links {
+    @include span-columns(6);
+
+    p {
+      text-align: right;
+    }
+  }
+}

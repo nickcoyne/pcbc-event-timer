@@ -14,12 +14,12 @@ class StagesController < ApplicationController
 
   # GET /stages/1
   def show
-    @stage_results = @stage.stage_results.order(:elapsed_time)
     render :show,
            locals: {
              event: @event,
              stage: @stage,
-             stage_results: @stage_results
+             stage_results: stage_results,
+             athlete: athlete
            }
   end
 
@@ -84,5 +84,15 @@ class StagesController < ApplicationController
   def stage_params
     params.require(:stage)
           .permit(:name, :event_id, :strava_segment_id, :item_order, :distance)
+  end
+
+  def athlete
+    Athlete.find(params[:athlete_id]) if params[:athlete_id]
+  end
+
+  def stage_results
+    results = @stage.stage_results.order(:elapsed_time)
+    results = results.where(athlete_id: athlete.id) if athlete
+    results
   end
 end

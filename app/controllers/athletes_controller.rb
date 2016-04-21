@@ -3,11 +3,12 @@ class AthletesController < ApplicationController
 
   # GET /athletes
   def index
-    @athletes = Athlete.all
+    render :index, locals: { athletes: collection, event: event }
   end
 
   # GET /athletes/1
   def show
+    render :show, locals: { athlete: @athlete, stage_results: stage_results }
   end
 
   # GET /athletes/new
@@ -55,5 +56,29 @@ class AthletesController < ApplicationController
   def athlete_params
     params.require(:athlete)
           .permit(:name, :gender, :strava_athlete_id, :profile_image_url)
+  end
+
+  def collection
+    athletes = Athlete.order(order).all
+    if event
+      athletes = athletes.where(
+        id: event.stages.map(&:stage_results).flatten.map(&:athlete_id).uniq
+      )
+    end
+    athletes
+  end
+
+  def order
+    params[:order] || 'name ASC'
+  end
+
+  def event
+    @event ||= Event.find(params[:event_id]) if params[:event_id]
+  end
+
+  def stage_results
+    results = @athlete.stage_results
+    results = results.joins(:event).where(event: { id: event.id }) if event
+    results
   end
 end

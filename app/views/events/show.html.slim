@@ -1,11 +1,15 @@
 p#notice = notice
 
-p
-  strong Event:&nbsp;
-  = event.name
-p
-  strong Date:&nbsp;
-  = event.date
+.section-header
+  .section-details
+    p
+      strong Event:&nbsp;
+      = event.name
+    p
+      strong Date:&nbsp;
+      = event.date
+  .section-links
+    p = link_to 'Event Athletes', athletes_path(event_id: event.id)
 
 = link_to 'Edit', edit_event_path(event)
 
@@ -68,16 +72,16 @@ ul.accordion-tabs-minimal
             tbody
               - if results.present?
                 - results.sort{ |x,y| x[1][stage.id.to_s] && y[1][stage.id.to_s] ? x[1][stage.id.to_s] <=> y[1][stage.id.to_s] : (x[1][stage.id.to_s] ? -1 : 1) }.each_with_index do |result, i|
+                  - athlete = result[0]
                   tr
                     td = i+1
                     td
-                      - if result[0].profile_image_url.match(/http/)
-                        = image_tag result[0].profile_image_url, size: '40x40'
-                    td = link_to result[0].name, "https://www.strava.com/athletes/#{result[0].strava_athlete_id}", target: '_blank'
-                    td = result[0].gender
+                      = image_tag athlete.profile_image_url, size: '40x40'
+                    td = link_to athlete.name, "https://www.strava.com/athletes/#{athlete.strava_athlete_id}", target: '_blank'
+                    td = athlete.gender
                     td
                       - if result[1][stage.id.to_s].present?
-                        = link_to Time.at(result[1][stage.id.to_s]).utc.strftime("%M:%S"), ""
+                        = link_to Time.at(result[1][stage.id.to_s]).utc.strftime("%M:%S"), event_stage_path(event, stage, athlete_id: athlete.id)
                       - else
                         '-
                     / td

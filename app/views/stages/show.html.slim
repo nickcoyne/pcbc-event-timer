@@ -1,6 +1,10 @@
 p#notice = notice
 
 h1 Results for #{link_to stage.event.name, event_path(stage.event)}: #{stage.name}
+- if athlete.present?
+  p
+    ' For Athlete:
+    = link_to athlete.name, athlete_path(athlete)
 
 .text-left
   = link_to 'Import results for Day', import_results_stage_path(stage, event_id: stage.event_id, date_range: 'today')

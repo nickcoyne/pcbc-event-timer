@@ -1,27 +1,30 @@
 h1 Listing athletes
 
+.section-header
+  .section-details
+    p
+  .section-links
+    - if params[:event_id]
+      p = link_to 'Back to Event', event_path(event)
+
 table
   thead
     tr
+      th
       th Name
       th Gender
-      th Strava athlete
-      th Profile image url
-      th
+      th Strava ID
       th
       th
 
   tbody
-    - @athletes.each do |athlete|
+    - athletes.each do |athlete|
       tr
-        td = athlete.name
+        td = link_to (image_tag athlete.profile_image_url, size: '40x40'), strava_link(athlete)
+        td = link_to athlete.name, athlete
         td = athlete.gender
         td = athlete.strava_athlete_id
-        td = athlete.profile_image_url
-        td = link_to 'Show', athlete
         td = link_to 'Edit', edit_athlete_path(athlete)
-        td = link_to 'Destroy', athlete, data: {:confirm => 'Are you sure?'}, :method => :delete
+        td = link_to 'Destroy', athlete, data: { confirm: 'Are you sure?' }, method: :delete
 
 br
-
-= link_to 'New Athlete', new_athlete_path
