@@ -1,8 +1,5 @@
-h1 Editing stage_result
+h1 Editing Stage Result for #{link_to stage_result.athlete.name, athlete_path(stage_result.athlete)}
 
-== render 'form'
-
-= link_to 'Show', @stage_result
-'|
-= link_to 'Back', stage_results_path
-
+== render 'form', stage_result: stage_result
+p
+= link_to 'Back', event_stage_path(stage_result.stage.event, stage_result.stage, athlete_id: stage_result.athlete_id)

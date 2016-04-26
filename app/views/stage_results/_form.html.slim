@@ -1,24 +1,21 @@
-= form_for @stage_result do |f|
-  - if @stage_result.errors.any?
+= form_for stage_result do |f|
+  - if stage_result.errors.any?
     #error_explanation
-      h2 = "#{pluralize(@stage_result.errors.count, "error")} prohibited this stage_result from being saved:"
+      h2 = "#{pluralize(stage_result.errors.count, "error")} prohibited this stage_result from being saved:"
       ul
-        - @stage_result.errors.full_messages.each do |message|
+        - stage_result.errors.full_messages.each do |message|
           li = message
 
+  p
+    'Stage:
+    = link_to stage_result.stage.name, event_stage_path(stage_result.stage.event, stage_result.stage)
+  p
+    'Distance:
+    = "#{(stage_result.distance/1000).round(3)}km"
+  p
+    'Start Time: 
+    = link_to stage_result.start_time.strftime('%d %b %Y, %Hh%M:%S'), "https://www.strava.com/segment_efforts/#{stage_result.strava_effort_id}", target: '_blank'
   .field
-    = f.label :stage_id
-    = f.number_field :stage_id
-  .field
-    = f.label :athlete_id
-    = f.number_field :athlete_id
-  .field
-    = f.label :start_time
-    = f.datetime_select :start_time
-  .field
-    = f.label :elapsed_time
+    = f.label 'Elapsed Time (s)'
     = f.number_field :elapsed_time
-  .field
-    = f.label :distance
-    = f.text_field :distance
   .actions = f.submit
