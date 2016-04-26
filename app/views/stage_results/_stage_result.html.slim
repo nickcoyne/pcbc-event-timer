@@ -8,3 +8,4 @@ tr
   th = link_to stage_result.start_time.strftime('%d %b %Y, %Hh%M:%S'), "https://www.strava.com/segment_efforts/#{stage_result.strava_effort_id}", target: '_blank'
   th = "#{(stage_result.distance/1000).round(3)}km"
   th = link_to 'Edit', edit_stage_result_path(stage_result)
+  th = link_to 'Destroy', stage_result, data: { confirm: 'Are you sure?' }, method: :delete

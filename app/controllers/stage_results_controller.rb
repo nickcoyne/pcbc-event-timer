@@ -50,8 +50,12 @@ class StageResultsController < ApplicationController
   # DELETE /stage_results/1
   def destroy
     @stage_result.destroy
-    redirect_to stage_results_url,
-                notice: 'Stage result was successfully destroyed.'
+    redirect_to event_stage_path(
+      @stage_result.stage.event,
+      @stage_result.stage,
+      athlete_id: @stage_result.athlete_id
+    ),
+    notice: 'Stage result was successfully destroyed.'
   end
 
   private
