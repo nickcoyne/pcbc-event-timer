@@ -18,4 +18,11 @@
   .field
     = f.label 'Elapsed Time (s)'
     = f.number_field :elapsed_time
+    'Average Performance Index: #{performance_vs_winner.round(3)}
+    - if leader_time.present? && leader_time > 0
+      br
+      = "Leader Time: #{leader_time}s"
+      br
+      = "Guideline Time: #{(performance_vs_winner * leader_time).round(1)}s"
+    
   .actions = f.submit

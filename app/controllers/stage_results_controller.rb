@@ -17,7 +17,20 @@ class StageResultsController < ApplicationController
 
   # GET /stage_results/1/edit
   def edit
-    render :edit, locals: { stage_result: @stage_result }
+    performance_vs_winner = Events::PerformanceVsWinner.new(
+      event: @stage_result.event,
+      athlete: @stage_result.athlete,
+      excluded_stage_ids: [@stage_result.stage_id]
+    )
+    pvw = performance_vs_winner.call
+    leader_time = performance_vs_winner.leading_result(@stage_result.stage)
+
+    render :edit,
+           locals: {
+             stage_result: @stage_result,
+             performance_vs_winner: pvw,
+             leader_time: leader_time
+           }
   end
 
   # POST /stage_results
