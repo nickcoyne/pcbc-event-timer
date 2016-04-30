@@ -10,7 +10,7 @@ module Stages
 
     attr_reader :stage, :date_range, :event
 
-    def initialize(stage:, date_range:)
+    def initialize(stage:, date_range: 'today')
       @stage      = stage
       @date_range = date_range
     end

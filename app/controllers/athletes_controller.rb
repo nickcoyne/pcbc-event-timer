@@ -65,6 +65,7 @@ class AthletesController < ApplicationController
         id: event.stages.map(&:stage_results).flatten.map(&:athlete_id).uniq
       )
     end
+    athletes = athletes.shuffle if params[:random]
     athletes
   end
 

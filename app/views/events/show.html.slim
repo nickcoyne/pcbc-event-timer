@@ -10,8 +10,7 @@ p#notice = notice
       = event.date
   .section-links
     p = link_to 'Event Athletes', athletes_path(event_id: event.id)
-
-= link_to 'Edit', edit_event_path(event)
+    p = link_to 'Import Results', import_results_event_path(event)
 
 ul.accordion-tabs-minimal
   li.tab-header-and-content
@@ -113,3 +112,5 @@ ul.accordion-tabs-minimal
               td colspan=3 There are no stages yet.
 
       = link_to 'Create a Stage', new_event_stage_path(event)
+
+p = link_to 'Edit Event', edit_event_path(event)

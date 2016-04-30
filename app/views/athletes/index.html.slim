@@ -6,6 +6,7 @@ h1 Listing athletes
   .section-links
     - if params[:event_id]
       p = link_to 'Back to Event', event_path(event)
+      p = link_to 'Random Order', athletes_path(event_id: params[:event_id], random: true)
 
 table
   thead
