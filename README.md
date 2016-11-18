@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A Rails app for managing timing for an enduro-style (multi-stage) mountain bike event, where the stages are timed with Strava. The app will aggregate Strava times across stages to produce a leaderboard.
+A Rails app for managing timing for an enduro-style (multi-stage) mountain bike event, where the stages are timed with Strava. The app will aggregate Strava times across stages to produce a leaderboard. Currently designed to be run locally, so that it can be used more easily where internet reception is not good (connection would only be required when actually syncing with Strava).
 
 ## Getting Started
 
