@@ -1,5 +1,9 @@
 # Pcbc-event-timer
 
+## Introduction
+
+A Rails app for managing timing for an enduro-style (multi-stage) mountain bike event, where the stages are timed with Strava. The app will aggregate Strava times across stages to produce a leaderboard.
+
 ## Getting Started
 
 After you have cloned this repo, run this setup script to set up your machine
