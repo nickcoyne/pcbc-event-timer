@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.0'
+ruby '2.3.1'
 
 gem 'autoprefixer-rails'
 gem 'bitters'
@@ -44,7 +44,7 @@ group :development, :test do
   gem 'bundler-audit', '>= 0.5.0', require: false
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
-  gem 'pry-byebug'
+  # gem 'pry-byebug'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.4.0'
 end
