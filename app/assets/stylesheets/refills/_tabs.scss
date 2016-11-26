@@ -17,6 +17,7 @@
   padding: 0;
 
   .tab-header-and-content {
+    font-size: $small-font-size;
     list-style: none;
 
     @include media($tab-mode) {
@@ -29,7 +30,7 @@
     border-top: $tab-border;
     color: $tab-link-color;
     display: block;
-    padding: ($base-spacing / 2) $gutter;
+    padding: ($base-spacing / 2) ($gutter / 2);
     text-decoration: none;
 
     @include media($tab-mode) {
