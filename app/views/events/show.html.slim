@@ -37,7 +37,7 @@ ul.accordion-tabs-minimal
               tr
                 td = i+1
                 td
-                  - if result[0].profile_image_url.match(/http/)
+                  - if result[0].profile_image_url && result[0].profile_image_url.match(/http/)
                     = image_tag result[0].profile_image_url, size: '40x40'
                 td = link_to result[0].name, "https://www.strava.com/athletes/#{result[0].strava_athlete_id}", target: '_blank'
                 td = result[0].gender

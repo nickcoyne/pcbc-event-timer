@@ -16,8 +16,10 @@ module Stages
     end
 
     def call
-      results['entries'].each do |result|
-        update_stage_result(result)
+      %w[M F].each do |gender|
+        results(gender)['entries'].each do |result|
+          update_stage_result(result, gender)
+        end
       end
       true
     end
@@ -30,43 +32,53 @@ module Stages
       )
     end
 
-    def results
+    def results(gender)
       client.segment_leaderboards(
         stage.strava_segment_id,
+        gender: gender,
         date_range: date_range,
         per_page: page_size
       )
     end
 
-    def update_stage_result(result)
+    def update_stage_result(result, gender)
       return unless on_event_date?(result['start_date'])
 
-      athlete = update_athlete(result)
-      stage_result = get_stage_result(result['effort_id'])
+      athlete = update_athlete(result, gender)
+      stage_result =
+        get_stage_result(
+          athlete.id,
+          stage.id,
+          Time.zone.parse(result['start_date'])
+        )
 
       stage_result.athlete = athlete
       stage_result.stage = stage
       stage_result.start_time = Time.zone.parse(result['start_date'])
       stage_result.elapsed_time = result['elapsed_time']
-      stage_result.distance = result['distance']
+      # stage_result.distance = result['distance']
       stage_result.save if stage_result.changed?
     end
 
-    def update_athlete(result)
-      athlete = get_athlete(result['athlete_id'])
-      athlete.name = result['athlete_name']
-      athlete.gender = result['athlete_gender']
-      athlete.profile_image_url = result['athlete_profile']
+    def update_athlete(result, gender)
+      athlete = get_athlete(result['athlete_name'])
+      # athlete.name = result['athlete_name']
+      athlete.gender = gender
+      # athlete.profile_image_url = result['athlete_profile']
       athlete.save if athlete.changed?
       athlete
     end
 
-    def get_athlete(id)
-      Athlete.find_or_create_by(strava_athlete_id: id)
+    def get_athlete(name)
+      Athlete.find_or_create_by(name: name)
     end
 
-    def get_stage_result(effort_id)
-      StageResult.find_or_create_by(strava_effort_id: effort_id)
+    def get_stage_result(athlete_id, stage_id, start_time)
+      StageResult.find_or_create_by(
+        athlete_id: athlete_id,
+        stage_id: stage_id,
+        start_time: start_time
+      )
     end
 
     def on_event_date?(result_date)
