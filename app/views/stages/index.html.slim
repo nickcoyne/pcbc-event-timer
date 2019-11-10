@@ -19,7 +19,7 @@ table
         td = "#{(stage.distance/1000).round(2)}km"
         td = link_to stage.stage_results.count, event_stage_path(stage.event, stage)
         td = link_to 'Edit', edit_event_stage_path(stage.event, stage)
-        td = link_to 'Destroy', stage, data: { confirm: 'Are you sure?' }, method: :delete
+        td = link_to 'Destroy', event_stage_path(stage.event, stage), data: { confirm: 'Are you sure?' }, method: :delete
 
 br
 
