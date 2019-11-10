@@ -12,8 +12,10 @@ h1 Results for #{link_to stage.event.name, event_path(stage.event)}: #{stage.nam
   / Disable these two options for the real event
   = link_to 'Import results for Week', import_results_stage_path(stage, event_id: stage.event_id, date_range: 'this_week')
   '&nbsp;|
+  = link_to 'Import results for Month', import_results_stage_path(stage, event_id: stage.event_id, date_range: 'this_month')
+  '&nbsp;|
   = link_to 'Import results for Year', import_results_stage_path(stage, event_id: stage.event_id, date_range: 'this_year')
-  
+
 .text-right
   = link_to 'Edit Stage', edit_event_stage_path(stage.event, stage)
 
