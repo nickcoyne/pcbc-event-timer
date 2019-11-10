@@ -64,9 +64,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-webkit (1.11.1)
-      capybara (>= 2.3.0, < 2.8.0)
-      json
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
     crack (0.4.3)
@@ -279,7 +276,6 @@ DEPENDENCIES
   bitters
   bourbon (= 5.0.0.beta.3)
   bundler-audit (>= 0.5.0)
-  capybara-webkit
   database_cleaner
   delayed_job_active_record
   dotenv-rails
@@ -323,7 +319,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 2.3.1p112
+   ruby 2.3.8p459
 
 BUNDLED WITH
    1.13.6
